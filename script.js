@@ -7,6 +7,12 @@ var lowerArray = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p
 var numericArray =  ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 var specialCharacterArray = ['@','%','+',"'",'!','#','$','^','?',':',',',')','(','}','{',']','[','~','-','_','.'];
 
+function getRandomChar(arr) {
+  var randomIndex = Math.floor(Math.random() * arr.length)
+  var randomCharacter = arr[randomIndex]
+  return randomCharacter
+  }
+
 function getPasswordOptions(){
   var getUpperCase = window.confirm("would you like upper case letters in your password?");
   var getLowerCase = window.confirm("Would you like lower case letters in your password?");
@@ -22,40 +28,43 @@ function getPasswordOptions(){
     length: chooseLength,
   }
 
-  console.log(passwordOptions)
   return passwordOptions;
 }
-
 
 function generatePassword() {
 var options = getPasswordOptions();
 var possibleCharacters = [];
+var result = []
 if(options.upperCase === true){
-  possibleCharacters.push(upperArray);
-}
-  console.log(possibleCharacters); 
+  possibleCharacters=possibleCharacters.concat(upperArray);
+} 
   if(options.lowerCase === true) {
-    possibleCharacters.push(lowerArray);
+    possibleCharacters=possibleCharacters.concat(lowerArray);
 }
-    console.log(possibleCharacters);
   if(options.specialCharacter === true){
-  possibleCharacters.push(specialCharacterArray);
+  possibleCharacters=possibleCharacters.concat(specialCharacterArray);
   }
-  console.log(possibleCharacters); 
   if(options.numeric === true){
-    possibleCharacters.push(numericArray);
+    possibleCharacters=possibleCharacters.concat(numericArray);
   }
-    console.log(possibleCharacters);
-  console.log(options);
+  for (let i = 0; i < options.length; i++) {
+    var finalCharacters = getRandomChar(possibleCharacters)
+    result.push(finalCharacters)
+  }
+  return result.join("")
 }
+
+
+
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
   passwordText.value = password;
+}
+
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
-}
 
 
 
